@@ -12,8 +12,11 @@ namespace AutoWorkCheck
     {
         static void Main(string[] args)
         {
+            Account account = new Account("account.json");
+            Console.WriteLine(account.id);
+            Console.WriteLine(account.password);
             WebMacro webMacro = new WebMacro();
-            webMacro.Run();
+            webMacro.Run(account.id, account.password);
 
         }
     }

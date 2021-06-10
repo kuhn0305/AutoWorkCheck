@@ -22,23 +22,24 @@ namespace AutoWorkCheck
 
             _options = new ChromeOptions();
             _options.AddArgument("disable-gpu");
-
-            _driver = new ChromeDriver(_driverService, _options);
-
-            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-
         }
 
-        public void Run()
+        public void Run(string id, string password)
         {
+            _driver = new ChromeDriver(_driverService, _options);
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            
+            _driver.Navigate().GoToUrl("http://gw.tektonspace.com/"); // 웹 사이트에 접속합니다.
+            _driver.SwitchTo().Frame(_driver.FindElementByXPath("/html/frameset/frame"));
 
-            _driver.Navigate().GoToUrl("https://www.naver.com"); // 웹 사이트에 접속합니다.
+            IWebElement idTextBox = _driver.FindElementByXPath("//*[@id=\"loginForm\"]/div/table/tbody/tr[1]/td[2]/input");
+            idTextBox.SendKeys(id);
 
-            IWebElement queryTextBox = _driver.FindElementByXPath("//*[@id=\"query\"]");
-            queryTextBox.SendKeys("무엇이든 물어보세요.");
+            IWebElement passwordTestBox = _driver.FindElementByXPath("//*[@id=\"loginForm\"]/div/table/tbody/tr[2]/td[2]/input");
+            passwordTestBox.SendKeys(password);
 
-            IWebElement searchButton = _driver.FindElementByXPath("//*[@id=\"search_btn\"]");
-            searchButton.Click();
+            IWebElement loginButton = _driver.FindElementByXPath("//*[@id=\"loginFormSubmit\"]");
+            loginButton.Click();
         }
     }
 }
