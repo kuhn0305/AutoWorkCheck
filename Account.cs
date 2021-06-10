@@ -21,7 +21,6 @@ namespace AutoWorkCheck
             if(File.Exists(path))
             {
                 string text = File.ReadAllText(path);
-                Console.WriteLine(text);
                 JObject jObject = JObject.Parse(text);
 
                 id = jObject["Id"].ToString();
