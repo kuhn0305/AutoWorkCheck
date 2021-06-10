@@ -25,11 +25,16 @@ namespace AutoWorkCheck
             options.AddArgument("--start-maximized");
         }
 
+        ~WebMacro()
+        {
+            driver.Quit();
+        }
+
         public void Run(string id, string password, bool isAttend)
         {
             driver = new ChromeDriver(driverService, options);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            
+
             driver.Navigate().GoToUrl("http://gw.tektonspace.com/"); // 웹 사이트에 접속합니다.
             driver.SwitchTo().Frame(driver.FindElementByXPath("/html/frameset/frame"));
 
@@ -42,17 +47,16 @@ namespace AutoWorkCheck
             IWebElement loginButton = driver.FindElementByXPath("//*[@id=\"loginFormSubmit\"]");
             loginButton.Click();
 
-            IWebElement checkButton;
             if(isAttend)
             {
-                checkButton = driver.FindElementByXPath("//*[@id=\"contentsdivAttendanceInfo\"]/div/div[2]/p[2]/a");
+                IWebElement checkButton = driver.FindElementByXPath("//*[@id=\"contentsdivAttendanceInfo\"]/div/div[2]/p[2]/a");
+                checkButton.Click();
             }
             else
             {
-                checkButton = driver.FindElementByXPath("//*[@id=\"contentsdivAttendanceInfo\"]/div/div[2]/p[3]/a");
+                IWebElement checkButton = driver.FindElementByXPath("//*[@id=\"contentsdivAttendanceInfo\"]/div/div[2]/p[3]/a");
+                checkButton.Click();
             }
-            
-            checkButton.Click();
         }
     }
 }
