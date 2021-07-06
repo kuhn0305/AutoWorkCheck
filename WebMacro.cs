@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using System.Threading;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 
 namespace AutoWorkCheck
 {
@@ -70,6 +72,10 @@ namespace AutoWorkCheck
                     IWebElement checkButton = driver.FindElementByXPath("//*[@id=\"contentsdivAttendanceInfo\"]/div/div[2]/p[3]/a");
                     checkButton.Click();
                 }
+
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.AlertIsPresent());
+
 
                 // 출퇴근 확인을 요청하는 알람창에서 확인을 누릅니다.
                 driver.SwitchTo().Alert().Accept();
